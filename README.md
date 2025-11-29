@@ -1,8 +1,8 @@
-# Cuidando da Mente 🧠
+# Cuidando da Mente
 
 Um web app interativo para tablet focado em exercícios simples de mindfulness para crianças com TDAH, ansiedade e depressão leve.
 
-## 🎯 Sobre o Projeto
+## Sobre o Projeto
 
 Este projeto implementa um jogo educativo baseado nos quatro elementos da natureza (Fogo, Água, Vento, Terra), onde cada elemento representa um tipo diferente de exercício de mindfulness:
 
@@ -11,35 +11,35 @@ Este projeto implementa um jogo educativo baseado nos quatro elementos da nature
 - **🌬️ Vento**: Movimentos contínuos e suaves como a brisa
 - **🌱 Terra**: Desenvolvimento de paciência e foco sustentado
 
-## ✨ Funcionalidades Implementadas
+## Funcionalidades Implementadas
 
-### 🎮 Jogos Funcionais
+### Jogos Funcionais
 - [x] **Jogo do Fogo**: Detecção de velocidade de gestos, feedback visual e sonoro
 - [x] **Jogo da Água**: Sistema de respiração cronometrado com ciclos de 4 segundos
 - [x] **Jogo do Vento**: Detecção de arrasto suave com animação de folhas
 - [x] **Jogo da Terra**: Sistema de hold prolongado com crescimento de plantas
 
-### 🧩 Componentes Base
+### Componentes Base
 - [x] **TouchArea**: Componente para detecção de gestos touch e mouse
 - [x] **ProgressCircle**: Indicador circular de progresso com animações
 - [x] **CalmIndicator**: Indicador visual do estado de calma
 - [x] **ElementCard**: Cards para seleção de elementos
 - [x] **BackButton**: Navegação consistente
 
-### 🎛️ Sistemas Implementados
+### Sistemas Implementados
 - [x] **Estado Global**: Zustand para gerenciamento de estado
 - [x] **Detecção de Gestos**: Velocidade, direção, intensidade e duração
 - [x] **Sistema de Áudio**: Howler.js com sons ambiente e feedback
 - [x] **Roteamento**: React Router com navegação completa
 - [x] **Animações**: Framer Motion para transições suaves
 
-### 📱 Interface Responsiva
+### Interface Responsiva
 - [x] Design otimizado para tablets
 - [x] Tailwind CSS para estilização
 - [x] Suporte a touch e mouse
 - [x] Feedback visual em tempo real
 
-## 🚀 Como Executar
+## Como Executar
 
 ### Pré-requisitos
 - Node.js (versão 16 ou superior)
@@ -60,7 +60,7 @@ npm run dev
 
 O projeto estará disponível em `http://localhost:5173`
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **React 18** - Framework principal
 - **Vite** - Build tool e dev server
@@ -71,7 +71,7 @@ O projeto estará disponível em `http://localhost:5173`
 - **Tailwind CSS** - Estilização
 - **PostCSS** - Processamento de CSS
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 src/
@@ -95,7 +95,7 @@ src/
 └── main.jsx         # Ponto de entrada
 ```
 
-## 🎵 Sistema de Áudio
+## Sistema de Áudio
 
 O jogo inclui suporte a áudio ambiente e feedback sonoro. Os arquivos de som devem ser colocados em `public/sounds/`:
 
@@ -109,7 +109,7 @@ O jogo inclui suporte a áudio ambiente e feedback sonoro. Os arquivos de som de
 
 **Nota**: O jogo funciona perfeitamente sem os arquivos de áudio, tratando erros silenciosamente.
 
-## 🎯 Mecânicas dos Jogos
+## Mecânicas dos Jogos
 
 ### 🔥 Fogo - Controle de Movimentos
 - **Objetivo**: Mover o dedo/mouse suavemente
@@ -135,7 +135,7 @@ O jogo inclui suporte a áudio ambiente e feedback sonoro. Os arquivos de som de
 - **Feedback**: Progresso visual da planta crescendo
 - **Sucesso**: Completar 3 segundos de hold
 
-## 📊 Sistema de Progresso
+## Sistema de Progresso
 
 Cada jogo rastreia:
 - **Tempo restante** (120 segundos por sessão)
@@ -144,7 +144,7 @@ Cada jogo rastreia:
 - **Taxa de sucesso**
 - **Estado de calma** (calm/não calmo)
 
-## 🔄 Estado Global
+## Estado Global
 
 O Zustand gerencia:
 ```javascript
@@ -161,7 +161,7 @@ O Zustand gerencia:
 }
 ```
 
-## 🎨 Design e UX
+## Design e UX
 
 - **Cores suaves**: Paleta pensada para não estimular demais
 - **Feedback imediato**: Resposta visual e sonora instantânea
@@ -182,7 +182,7 @@ Cada elemento trabalha aspectos diferentes:
 - **Coordenação e fluidez** (Vento)
 - **Paciência e persistência** (Terra)
 
-## 🔧 Desenvolvimento
+## Desenvolvimento
 
 ### Scripts Disponíveis
 - `npm run dev` - Servidor de desenvolvimento
@@ -190,36 +190,3 @@ Cada elemento trabalha aspectos diferentes:
 - `npm run preview` - Preview do build
 - `npm run lint` - Linting do código
 
-### Status do Projeto
-- ✅ **Funcionalidade**: 100% implementada
-- ✅ **Testes**: Testado no navegador
-- ✅ **Interface**: Responsiva e funcional
-- ✅ **Lógica**: Todos os 4 jogos funcionando
-- ✅ **Navegação**: Rotas implementadas
-- ⚠️ **Áudio**: Placeholders criados (sons não incluídos)
-
-## 📝 Próximos Passos (Opcional)
-
-1. **Design UI/UX**: Aplicar design do Figma
-2. **Assets de Som**: Adicionar arquivos de áudio reais
-3. **Animações**: Expandir animações com Framer Motion
-4. **Persistência**: Salvar progresso do usuário
-5. **Analytics**: Rastrear uso terapêutico
-6. **PWA**: Transformar em Progressive Web App
-
-## 🤝 Contribuição
-
-Este é um projeto acadêmico/terapêutico. Para contribuir:
-1. Fork o projeto
-2. Crie uma branch para sua feature
-3. Commit suas mudanças
-4. Push para a branch
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Projeto desenvolvido para fins educacionais e terapêuticos.
-
----
-
-**Desenvolvido com ❤️ para apoiar crianças com TDAH, ansiedade e depressão leve**
