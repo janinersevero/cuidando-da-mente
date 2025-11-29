@@ -1,0 +1,369 @@
+/* Paleta de cores pixel art para o jogo */
+:root {
+  /* Cores primárias suaves */
+  --pixel-bg: #2D3748;
+  --pixel-bg-light: #4A5568;
+  --pixel-text: #F7FAFC;
+  --pixel-text-dark: #2D3748;
+  
+  /* Cores dos elementos */
+  --fire-primary: #FF6B6B;
+  --fire-secondary: #FFE66D;
+  --fire-accent: #FF8E53;
+  
+  --water-primary: #4ECDC4;
+  --water-secondary: #45B7D1;
+  --water-accent: #96CEB4;
+  
+  --wind-primary: #A8E6CF;
+  --wind-secondary: #C7CEEA;
+  --wind-accent: #FFEAA7;
+  
+  --earth-primary: #98D8C8;
+  --earth-secondary: #FDCB6E;
+  --earth-accent: #6C5CE7;
+  
+  /* Cores de feedback */
+  --success: #00B894;
+  --warning: #FDCB6E;
+  --error: #E17055;
+  --calm: #74B9FF;
+  
+  /* Sombras pixel art */
+  --shadow-pixel: 4px 4px 0px rgba(0,0,0,0.3);
+  --shadow-pixel-small: 2px 2px 0px rgba(0,0,0,0.2);
+}
+
+/* Fonte pixel art */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.pixel-font {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+}
+
+.pixel-font-large {
+  font-size: 16px;
+}
+
+.pixel-font-small {
+  font-size: 8px;
+}
+
+/* Elementos pixel art base */
+.pixel-button {
+  background: var(--pixel-bg-light);
+  border: 3px solid var(--pixel-text);
+  color: var(--pixel-text);
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: none;
+  position: relative;
+  box-shadow: var(--shadow-pixel);
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.pixel-button:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+}
+
+.pixel-button:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+/* Cards de elementos com estilo pixel */
+.pixel-card {
+  background: var(--pixel-bg);
+  border: 3px solid var(--pixel-text);
+  box-shadow: var(--shadow-pixel);
+  position: relative;
+  image-rendering: pixelated;
+}
+
+.pixel-card::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  height: 3px;
+  background: rgba(255,255,255,0.2);
+}
+
+.pixel-card::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 3px;
+  bottom: 3px;
+  background: rgba(255,255,255,0.2);
+}
+
+/* Cores específicas para cada elemento */
+.pixel-fire {
+  background: linear-gradient(135deg, var(--fire-primary), var(--fire-secondary));
+  border-color: var(--fire-accent);
+}
+
+.pixel-water {
+  background: linear-gradient(135deg, var(--water-primary), var(--water-secondary));
+  border-color: var(--water-accent);
+}
+
+.pixel-wind {
+  background: linear-gradient(135deg, var(--wind-primary), var(--wind-secondary));
+  border-color: var(--wind-accent);
+}
+
+.pixel-earth {
+  background: linear-gradient(135deg, var(--earth-primary), var(--earth-secondary));
+  border-color: var(--earth-accent);
+}
+
+/* Sprites pixel art */
+.pixel-sprite {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+}
+
+.pixel-sprite-large {
+  width: 64px;
+  height: 64px;
+}
+
+/* Animações pixel art */
+@keyframes pixel-bounce {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes pixel-glow {
+  0%, 100% { 
+    box-shadow: var(--shadow-pixel), 0 0 0 rgba(116, 185, 255, 0);
+  }
+  50% { 
+    box-shadow: var(--shadow-pixel), 0 0 20px rgba(116, 185, 255, 0.5);
+  }
+}
+
+@keyframes pixel-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+.animate-pixel-bounce {
+  animation: pixel-bounce 1s ease-in-out infinite;
+}
+
+.animate-pixel-glow {
+  animation: pixel-glow 2s ease-in-out infinite;
+}
+
+.animate-pixel-shake {
+  animation: pixel-shake 0.5s ease-in-out;
+}
+
+/* Layout para tablet */
+.tablet-container {
+  width: 100vw;
+  height: 100vh;
+  max-width: 1024px;
+  max-height: 768px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.tablet-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
+.tablet-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
+/* Área de jogo otimizada para touch */
+.pixel-game-area {
+  background: var(--pixel-bg);
+  border: 4px solid var(--pixel-text);
+  box-shadow: var(--shadow-pixel);
+  min-height: 400px;
+  position: relative;
+  overflow: hidden;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+/* Indicadores pixel art */
+.pixel-progress {
+  background: var(--pixel-bg);
+  border: 2px solid var(--pixel-text);
+  height: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pixel-progress-fill {
+  background: var(--success);
+  height: 100%;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.pixel-progress-fill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255,255,255,0.3);
+}
+
+/* HUD elementos */
+.pixel-hud {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  background: var(--pixel-bg);
+  border: 3px solid var(--pixel-text);
+  padding: 16px;
+  z-index: 100;
+  box-shadow: var(--shadow-pixel);
+}
+
+/* Estados de feedback visual */
+.calm-state {
+  filter: hue-rotate(120deg) brightness(1.1);
+}
+
+.intense-state {
+  filter: hue-rotate(-30deg) brightness(1.3) contrast(1.2);
+}
+
+.success-state {
+  background: var(--success) !important;
+  animation: pixel-glow 0.5s ease-out;
+}
+
+.error-state {
+  background: var(--error) !important;
+  animation: pixel-shake 0.5s ease-out;
+}
+
+/* Elementos 8-bit específicos */
+.pixel-fire-sprite {
+  background: linear-gradient(45deg, 
+    var(--fire-primary) 0%, 
+    var(--fire-secondary) 50%, 
+    var(--fire-accent) 100%);
+  width: 40px;
+  height: 40px;
+  clip-path: polygon(50% 0%, 90% 50%, 75% 100%, 25% 100%, 10% 50%);
+}
+
+.pixel-water-sprite {
+  background: var(--water-primary);
+  width: 40px;
+  height: 40px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+}
+
+.pixel-wind-sprite {
+  background: var(--wind-primary);
+  width: 32px;
+  height: 8px;
+  position: relative;
+}
+
+.pixel-wind-sprite::before,
+.pixel-wind-sprite::after {
+  content: '';
+  position: absolute;
+  background: var(--wind-secondary);
+  height: 8px;
+  width: 24px;
+}
+
+.pixel-wind-sprite::before {
+  top: -12px;
+  left: 8px;
+}
+
+.pixel-wind-sprite::after {
+  top: 12px;
+  left: 4px;
+}
+
+.pixel-earth-sprite {
+  background: var(--earth-primary);
+  width: 16px;
+  height: 32px;
+  position: relative;
+}
+
+.pixel-earth-sprite::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -4px;
+  width: 24px;
+  height: 16px;
+  background: var(--earth-secondary);
+  border-radius: 50%;
+}
+
+/* Responsividade para tablets */
+@media (orientation: landscape) and (max-width: 1024px) {
+  .tablet-container {
+    padding: 16px;
+  }
+  
+  .pixel-font {
+    font-size: 10px;
+  }
+  
+  .pixel-font-large {
+    font-size: 14px;
+  }
+  
+  .tablet-grid {
+    gap: 16px;
+  }
+  
+  .pixel-game-area {
+    min-height: 320px;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 768px) {
+  .tablet-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .tablet-grid-2 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
