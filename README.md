@@ -14,30 +14,29 @@ Este projeto implementa um jogo educativo baseado nos quatro elementos da nature
 ## Funcionalidades
 
 ### Jogos Implementados
-- ✅ **Jogo do Fogo**: Detecção de velocidade de gestos com feedback visual
-- ✅ **Jogo da Água**: Sistema de remoção de folhas com movimento de correnteza
-- ✅ **Jogo do Vento**: Estourar bolhas em movimento (otimizado para tablets)
-- ✅ **Jogo da Terra**: Sistema de paciência com crescimento de plantas
+-  **Jogo do Fogo**: Detecção de velocidade de gestos com feedback visual
+-  **Jogo da Água**: Sistema de remoção de folhas com movimento de correnteza
+-  **Jogo do Vento**: Estourar bolhas em movimento (otimizado para tablets)
+-  **Jogo da Terra**: Sistema de paciência com crescimento de plantas
 
 ### Componentes Base
-- ✅ **TouchArea**: Componente para detecção de gestos touch e mouse
-- ✅ **ProgressCircle**: Indicador circular de progresso com animações
-- ✅ **CalmIndicator**: Indicador visual do estado de calma
-- ✅ **ElementCard**: Cards para seleção de elementos
-- ✅ **BackButton**: Navegação consistente
+-  **TouchArea**: Componente para detecção de gestos touch e mouse
+-  **ProgressCircle**: Indicador circular de progresso com animações
+-  **CalmIndicator**: Indicador visual do estado de calma
+-  **ElementCard**: Cards para seleção de elementos
+-  **BackButton**: Navegação consistente
 
 ### Sistemas Implementados
-- ✅ **Estado Global**: Zustand para gerenciamento de estado
-- ✅ **Detecção de Gestos**: Velocidade, direção e intensidade
-- ✅ **Sistema de Áudio**: Howler.js com sons ambiente e feedback
-- ✅ **Roteamento**: React Router com navegação completa
-- ✅ **Animações**: Framer Motion para transições suaves
+-  **Estado Global**: Zustand para gerenciamento de estado
+-  **Detecção de Gestos**: Velocidade, direção e intensidade
+-  **Roteamento**: React Router com navegação completa
+-  **Animações**: Framer Motion para transições suaves
 
 ### Interface Responsiva
-- ✅ Design otimizado para tablets
-- ✅ Estilização com CSS customizado
-- ✅ Suporte a touch e mouse
-- ✅ Feedback visual em tempo real
+-  Design otimizado para tablets
+-  Estilização com CSS customizado
+-  Suporte a touch e mouse
+-  Feedback visual em tempo real
 
 ## Como Executar
 
