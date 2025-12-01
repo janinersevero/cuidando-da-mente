@@ -1,22 +1,22 @@
 import React, { useRef, useState, useCallback } from 'react';
 
-const TouchArea = ({ 
-  onTouchStart, 
-  onTouchMove, 
-  onTouchEnd, 
-  children, 
+const TouchArea = ({
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
+  children,
   className = "",
-  disabled = false 
+  disabled = false
 }) => {
   const touchAreaRef = useRef(null);
   const [isPressed, setIsPressed] = useState(false);
 
   const handleTouchStart = useCallback((e) => {
     if (disabled) return;
-    
+
     e.preventDefault();
     setIsPressed(true);
-    
+
     if (onTouchStart) {
       onTouchStart(e);
     }
@@ -24,9 +24,9 @@ const TouchArea = ({
 
   const handleTouchMove = useCallback((e) => {
     if (disabled) return;
-    
+
     e.preventDefault();
-    
+
     if (onTouchMove) {
       onTouchMove(e);
     }
@@ -34,22 +34,20 @@ const TouchArea = ({
 
   const handleTouchEnd = useCallback((e) => {
     if (disabled) return;
-    
+
     e.preventDefault();
     setIsPressed(false);
-    
+
     if (onTouchEnd) {
       onTouchEnd(e);
     }
   }, [onTouchEnd, disabled]);
 
-  // Também suporta mouse para testes no desktop
   const handleMouseDown = useCallback((e) => {
     if (disabled) return;
-    
+
     setIsPressed(true);
-    
-    // Simula touch event
+
     const simulatedEvent = {
       ...e,
       touches: [{
@@ -60,7 +58,7 @@ const TouchArea = ({
       }],
       timeStamp: Date.now()
     };
-    
+
     if (onTouchStart) {
       onTouchStart(simulatedEvent);
     }
@@ -68,8 +66,7 @@ const TouchArea = ({
 
   const handleMouseMove = useCallback((e) => {
     if (disabled || !isPressed) return;
-    
-    // Simula touch event
+
     const simulatedEvent = {
       ...e,
       touches: [{
@@ -80,7 +77,7 @@ const TouchArea = ({
       }],
       timeStamp: Date.now()
     };
-    
+
     if (onTouchMove) {
       onTouchMove(simulatedEvent);
     }
@@ -88,10 +85,9 @@ const TouchArea = ({
 
   const handleMouseUp = useCallback((e) => {
     if (disabled) return;
-    
+
     setIsPressed(false);
-    
-    // Simula touch event
+
     const simulatedEvent = {
       ...e,
       changedTouches: [{
@@ -102,7 +98,7 @@ const TouchArea = ({
       }],
       timeStamp: Date.now()
     };
-    
+
     if (onTouchEnd) {
       onTouchEnd(simulatedEvent);
     }
@@ -126,7 +122,7 @@ const TouchArea = ({
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp} // Para casos onde o mouse sai da área
+      onMouseLeave={handleMouseUp}
       style={{
         WebkitTouchCallout: 'none',
         WebkitUserSelect: 'none',

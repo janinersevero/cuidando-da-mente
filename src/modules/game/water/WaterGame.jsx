@@ -1,50 +1,62 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import useGameStore from '../../../store/gameStore';
-import TouchArea from '../../../components/ui/TouchArea';
-import ProgressCircle from '../../../components/ui/ProgressCircle';
-import CalmIndicator from '../../../components/ui/CalmIndicator';
-import { detectHoldDuration, isValidHoldDuration } from '../../../utils/gestureUtils';
+import BackButton from '../../../components/ui/BackButton';
 import { playElementSound, playFeedbackSound } from '../../../utils/audioUtils';
+import riverBackground from '../../../assets/figma/river_background.jpg';
+import leafSprite from '../../../assets/figma/leaf.png';
 
 const WaterGame = () => {
   const {
-    progress,
     calm,
-    hits,
-    misses,
-    breathingRhythm,
     isGameActive,
     timeRemaining,
     updateProgress,
     setCalmState,
     incrementHits,
-    incrementMisses,
-    setBreathingRhythm,
     startGame,
     endGame,
     updateTimeRemaining
   } = useGameStore();
 
-  const [isInhaling, setIsInhaling] = useState(false);
-  const [holdStartTime, setHoldStartTime] = useState(null);
-  const [breathingCycles, setBreathingCycles] = useState(0);
-  const [currentPhase, setCurrentPhase] = useState('waiting'); // 'waiting', 'inhaling', 'exhaling'
   const intervalRef = useRef(null);
+  const totalLeaves = 12;
 
-  // Inicia o jogo
+  const [leaves, setLeaves] = useState(() => {
+    const initialLeaves = [];
+    for (let i = 0; i < totalLeaves; i++) {
+      initialLeaves.push({
+        id: i,
+        initialX: 150 + Math.random() * 450,
+        x: 150 + Math.random() * 450,
+        initialY: 100 + Math.random() * 300,
+        y: 100 + Math.random() * 300,
+        rotation: Math.random() * 360,
+        scale: 0.8 + Math.random() * 0.4,
+        removed: false,
+        isFloating: true,
+        driftSpeed: 0.3 + Math.random() * 0.5,
+        floatOffset: Math.random() * 2 * Math.PI
+      });
+    }
+    return initialLeaves;
+  });
+  const [removedLeaves, setRemovedLeaves] = useState(0);
+  const [gamePhase, setGamePhase] = useState('playing');
+  const [showCelebration, setShowCelebration] = useState(false);
+
   useEffect(() => {
     startGame();
     playElementSound('water');
-    
+
     return () => {
       endGame();
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [startGame, endGame]);
+  }, []);
 
-  // Timer do jogo
   useEffect(() => {
     if (isGameActive) {
       intervalRef.current = setInterval(() => {
@@ -59,190 +71,362 @@ const WaterGame = () => {
     };
   }, [isGameActive, updateTimeRemaining]);
 
-  // Atualiza o ritmo de respiração baseado nos ciclos
   useEffect(() => {
-    if (breathingCycles > 0) {
-      const rhythm = Math.min(breathingCycles * 10, 100);
-      setBreathingRhythm(rhythm);
-    }
-  }, [breathingCycles, setBreathingRhythm]);
+    if (!isGameActive || gamePhase !== 'playing') return;
 
-  const handleTouchStart = useCallback(() => {
-    if (!isInhaling && currentPhase === 'waiting') {
-      setHoldStartTime(Date.now());
-      setIsInhaling(true);
-      setCurrentPhase('inhaling');
-      setCalmState(true);
-    }
-  }, [isInhaling, currentPhase, setCalmState]);
+    const moveInterval = setInterval(() => {
+      setLeaves(prevLeaves =>
+        prevLeaves.map(leaf => {
+          if (leaf.removed) return leaf;
 
-  const handleTouchEnd = useCallback(() => {
-    if (isInhaling && holdStartTime && currentPhase === 'inhaling') {
-      const holdDuration = detectHoldDuration(holdStartTime, Date.now());
-      const isValidDuration = isValidHoldDuration(holdDuration, 3.5, 5.5);
+          let newX = leaf.x + leaf.driftSpeed;
 
-      setIsInhaling(false);
-      setCurrentPhase('exhaling');
-      
-      if (isValidDuration) {
-        // Respiração correta
-        incrementHits();
-        updateProgress(8);
-        setBreathingCycles(prev => prev + 1);
-        playFeedbackSound(true);
-      } else {
-        // Respiração incorreta (muito rápida ou muito lenta)
-        incrementMisses();
-        updateProgress(-3);
-        playFeedbackSound(false);
-      }
+          if (newX > 700) {
+            newX = 50;
+          }
 
-      // Fase de expiração
-      setTimeout(() => {
-        setCurrentPhase('waiting');
-        setCalmState(false);
-        setHoldStartTime(null);
-      }, 1000);
-    }
-  }, [isInhaling, holdStartTime, currentPhase, incrementHits, incrementMisses, updateProgress, setCalmState]);
+          const timeOffset = Date.now() * 0.001 + leaf.floatOffset;
+          const verticalDrift = Math.sin(timeOffset * leaf.driftSpeed) * 10;
 
-  // Para o jogo quando o tempo acabar
+          return {
+            ...leaf,
+            x: newX,
+            y: leaf.initialY + verticalDrift,
+            rotation: leaf.rotation + Math.sin(timeOffset) * 5
+          };
+        })
+      );
+    }, 50);
+
+    return () => clearInterval(moveInterval);
+  }, [isGameActive, gamePhase]);
+
   useEffect(() => {
-    if (timeRemaining <= 0 && isGameActive) {
+    if (timeRemaining <= 0 && isGameActive && gamePhase === 'playing') {
       endGame();
     }
-  }, [timeRemaining, isGameActive, endGame]);
+  }, [timeRemaining, isGameActive, endGame, gamePhase]);
 
-  // Animação do círculo baseado no estado
-  const getCircleStyle = () => {
-    let size = 80;
-    let opacity = 0.7;
-    
-    if (currentPhase === 'inhaling') {
-      size = 80 + Math.min(breathingCycles * 10, 40);
-      opacity = 0.9;
-    } else if (currentPhase === 'exhaling') {
-      size = 60;
-      opacity = 0.5;
+  const handleLeafClick = useCallback((leafId) => {
+    if (gamePhase !== 'playing') return;
+
+    setLeaves(prevLeaves =>
+      prevLeaves.map(leaf =>
+        leaf.id === leafId ? { ...leaf, removed: true } : leaf
+      )
+    );
+
+    const newRemovedCount = removedLeaves + 1;
+    setRemovedLeaves(newRemovedCount);
+    incrementHits();
+    updateProgress(100 / totalLeaves);
+    setCalmState(true);
+    playFeedbackSound(true);
+
+    if (newRemovedCount >= totalLeaves) {
+      setGamePhase('completed');
+      setShowCelebration(true);
+
+      setTimeout(() => {
+        setShowCelebration(false);
+        endGame();
+      }, 3000);
     }
 
-    return {
-      width: `${size}px`,
-      height: `${size}px`,
-      backgroundColor: calm ? '#3b82f6' : '#60a5fa',
-      borderRadius: '50%',
-      opacity,
-      transform: isInhaling ? 'scale(1.5)' : 'scale(1)',
-      transition: 'all 0.5s ease-out',
-      boxShadow: `0 0 ${size/2}px rgba(59, 130, 246, 0.4)`
-    };
-  };
+    setTimeout(() => setCalmState(false), 500);
+  }, [gamePhase, removedLeaves, incrementHits, updateProgress, setCalmState, totalLeaves, endGame]);
 
   const getInstructions = () => {
-    switch (currentPhase) {
-      case 'inhaling':
-        return "Inspire... segure por 4 segundos";
-      case 'exhaling':
-        return "Expire... relaxe";
-      default:
-        return "Toque e segure para inspirar (4 segundos)";
+    if (gamePhase === 'completed') {
+      return "Parabéns, sua tranquilidade tirou todas as folhas!";
     }
-  };
-
-  const getPhaseText = () => {
-    switch (currentPhase) {
-      case 'inhaling':
-        return "INSPIRANDO";
-      case 'exhaling':
-        return "EXPIRANDO";
-      default:
-        return "PRONTO";
-    }
+    return "Com calma, remova as folhas do rio";
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-100 to-cyan-100 p-6">
-      <div className="max-w-md mx-auto">
-        {/* Header com informações */}
-        <div className="flex justify-between items-center mb-6">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-800">💧 Água</h2>
-            <p className="text-sm text-gray-600">Respiração 4-4</p>
-          </div>
-          
-          <div className="text-right">
-            <p className="text-lg font-bold text-gray-700">
-              {Math.ceil(timeRemaining)}s
-            </p>
-            <p className="text-sm text-gray-600">
-              {hits} acertos | {misses} erros
-            </p>
-          </div>
-        </div>
+    <div
+      style={{
+        background: 'linear-gradient(180deg, #87CEEB 0%, #4682B4 100%)',
+        minHeight: '100vh',
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px'
+      }}
+    >
+      <div style={{ position: 'absolute', top: '20px', left: '20px', zIndex: 20 }}>
+        <BackButton to="/selecionar" />
+      </div>
 
-        {/* Progresso */}
-        <div className="flex justify-center mb-6">
-          <ProgressCircle value={progress} calm={calm} />
-        </div>
-
-        {/* Ciclos de respiração */}
-        <div className="text-center mb-4">
-          <p className="text-lg font-bold text-blue-700">
-            {breathingCycles} ciclos completos
+      <div style={{
+        position: 'absolute',
+        top: '20px',
+        right: '20px',
+        zIndex: 10,
+        textAlign: 'center'
+      }}>
+        <div style={{
+          background: 'linear-gradient(145deg, #DEB887, #CD853F)',
+          padding: '15px 20px',
+          borderRadius: '15px',
+          border: '4px solid #8B4513',
+          boxShadow: '0 8px 15px rgba(0,0,0,0.3), inset 0 2px 0 rgba(255,255,255,0.2)',
+          fontFamily: '"Press Start 2P", monospace'
+        }}>
+          <p style={{
+            fontSize: '12px',
+            color: '#4B2F00',
+            marginBottom: '8px',
+            textShadow: '1px 1px 0 rgba(255,255,255,0.3)'
+          }}>
+            💧 Água
+          </p>
+          <p style={{
+            fontSize: '16px',
+            color: '#2C1810',
+            marginBottom: '8px',
+            textShadow: '1px 1px 0 rgba(255,255,255,0.3)'
+          }}>
+            {Math.ceil(timeRemaining)}s
+          </p>
+          <p style={{
+            fontSize: '10px',
+            color: '#1F4F2F',
+            margin: 0,
+            textShadow: '1px 1px 0 rgba(255,255,255,0.3)'
+          }}>
+            {removedLeaves}/{totalLeaves} folhas
           </p>
         </div>
-
-        {/* Área do jogo */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg mb-6">
-          <div className="text-center mb-6">
-            <p className="text-lg font-medium text-gray-700 mb-2">
-              {getInstructions()}
-            </p>
-            <p className="text-sm font-bold text-blue-600">
-              {getPhaseText()}
-            </p>
-          </div>
-
-          <TouchArea
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            className="flex justify-center items-center h-64 bg-gradient-to-b from-blue-50 to-cyan-50 rounded-xl"
-          >
-            {/* Círculo de respiração */}
-            <div className="relative flex items-center justify-center">
-              <div style={getCircleStyle()} />
-              
-              {/* Ondas concêntricas */}
-              {isInhaling && (
-                <>
-                  <div 
-                    className="absolute rounded-full border-2 border-blue-300 animate-ping"
-                    style={{ 
-                      width: '120px', 
-                      height: '120px',
-                      animationDuration: '2s'
-                    }} 
-                  />
-                  <div 
-                    className="absolute rounded-full border-2 border-blue-200 animate-ping"
-                    style={{ 
-                      width: '160px', 
-                      height: '160px',
-                      animationDuration: '2.5s',
-                      animationDelay: '0.5s'
-                    }} 
-                  />
-                </>
-              )}
-            </div>
-          </TouchArea>
-        </div>
-
-        {/* Indicador de calma */}
-        <div className="flex justify-center">
-          <CalmIndicator calm={calm} intensity={breathingRhythm / 100} />
-        </div>
       </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        style={{
+          position: 'absolute',
+          top: '120px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          textAlign: 'center',
+          zIndex: 15
+        }}
+      >
+        <div style={{
+          background: 'linear-gradient(145deg, #DEB887, #CD853F)',
+          padding: '20px 40px',
+          borderRadius: '20px',
+          border: '4px solid #8B4513',
+          boxShadow: '0 12px 25px rgba(0,0,0,0.4), inset 0 3px 0 rgba(255,255,255,0.3)',
+          position: 'relative'
+        }}>
+          <div style={{
+            position: 'absolute',
+            top: '8px',
+            left: '8px',
+            right: '8px',
+            bottom: '8px',
+            background: 'repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139,69,19,0.1) 2px, rgba(139,69,19,0.1) 4px)',
+            borderRadius: '12px'
+          }} />
+
+          <h1 style={{
+            fontFamily: '"Press Start 2P", monospace',
+            fontSize: gamePhase === 'completed' ? '14px' : '16px',
+            color: '#4B2F00',
+            textShadow: '2px 2px 0 rgba(255,255,255,0.4), 1px 1px 0 rgba(139,69,19,0.5)',
+            margin: 0,
+            lineHeight: '1.4',
+            position: 'relative',
+            zIndex: 1
+          }}>
+            {getInstructions()}
+          </h1>
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        style={{
+          position: 'relative',
+          width: '750px',
+          height: '500px',
+          marginTop: '60px',
+          backgroundImage: `url(${riverBackground})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          borderRadius: '20px',
+          border: '5px solid #4682B4',
+          boxShadow: '0 15px 30px rgba(0,0,0,0.4), inset 0 0 20px rgba(255,255,255,0.1)',
+          overflow: 'hidden'
+        }}
+      >
+        {leaves.map((leaf) => (
+          !leaf.removed && (
+            <img
+              key={leaf.id}
+              src={leafSprite}
+              alt={`Folha ${leaf.id + 1}`}
+              onClick={() => handleLeafClick(leaf.id)}
+              style={{
+                position: 'absolute',
+                left: '0px',
+                top: '0px',
+                width: '50px',
+                height: '50px',
+                cursor: 'pointer',
+                zIndex: 5,
+                imageRendering: 'pixelated',
+                filter: calm ? 'brightness(1.3) drop-shadow(0 0 15px rgba(34, 197, 94, 0.8))' : 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))',
+                transform: `translate(${leaf.x}px, ${leaf.y}px) rotate(${leaf.rotation}deg) scale(${leaf.scale})`,
+                transition: 'transform 0.1s ease-out',
+                opacity: 1
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = `translate(${leaf.x}px, ${leaf.y}px) rotate(${leaf.rotation + 20}deg) scale(${leaf.scale * 1.2})`;
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = `translate(${leaf.x}px, ${leaf.y}px) rotate(${leaf.rotation}deg) scale(${leaf.scale})`;
+              }}
+            />
+          )
+        ))}
+      </motion.div>
+
+      <motion.div
+        style={{
+          position: 'absolute',
+          bottom: '60px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '350px',
+          zIndex: 10
+        }}
+      >
+        <div style={{
+          background: 'linear-gradient(145deg, #DEB887, #CD853F)',
+          padding: '20px',
+          borderRadius: '20px',
+          border: '4px solid #8B4513',
+          boxShadow: '0 12px 25px rgba(0,0,0,0.4), inset 0 3px 0 rgba(255,255,255,0.3)',
+          position: 'relative'
+        }}>
+          <div style={{
+            position: 'absolute',
+            top: '8px',
+            left: '8px',
+            right: '8px',
+            bottom: '8px',
+            background: 'repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139,69,19,0.1) 2px, rgba(139,69,19,0.1) 4px)',
+            borderRadius: '12px'
+          }} />
+
+          <div style={{
+            width: '100%',
+            height: '20px',
+            background: 'linear-gradient(145deg, #8B4513, #654321)',
+            borderRadius: '10px',
+            overflow: 'hidden',
+            border: '2px solid #4B2F00',
+            position: 'relative',
+            zIndex: 1
+          }}>
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${(removedLeaves / totalLeaves) * 100}%` }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              style={{
+                height: '100%',
+                background: 'linear-gradient(90deg, #3b82f6, #06b6d4)',
+                borderRadius: '8px',
+                boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.3)'
+              }}
+            />
+          </div>
+          <p style={{
+            fontFamily: '"Press Start 2P", monospace',
+            fontSize: '12px',
+            color: '#4B2F00',
+            textShadow: '1px 1px 0 rgba(255,255,255,0.4)',
+            textAlign: 'center',
+            marginTop: '12px',
+            marginBottom: '0',
+            position: 'relative',
+            zIndex: 1
+          }}>
+            Progresso: {Math.round((removedLeaves / totalLeaves) * 100)}%
+          </p>
+        </div>
+      </motion.div>
+
+      <AnimatePresence>
+        {showCelebration && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 25,
+              textAlign: 'center'
+            }}
+          >
+            <div style={{
+              background: 'linear-gradient(145deg, #90EE90, #32CD32)',
+              padding: '40px',
+              borderRadius: '30px',
+              border: '6px solid #228B22',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.5), inset 0 4px 0 rgba(255,255,255,0.4)',
+              position: 'relative'
+            }}>
+              <div style={{
+                position: 'absolute',
+                top: '12px',
+                left: '12px',
+                right: '12px',
+                bottom: '12px',
+                background: 'repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(34,139,34,0.1) 3px, rgba(34,139,34,0.1) 6px)',
+                borderRadius: '20px'
+              }} />
+
+              <h2 style={{
+                fontFamily: '"Press Start 2P", monospace',
+                fontSize: '24px',
+                color: '#0F4F0F',
+                textShadow: '3px 3px 0 rgba(255,255,255,0.5), 2px 2px 0 rgba(34,139,34,0.7)',
+                margin: '0 0 20px 0',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                PARABÉNS! 🎉
+              </h2>
+              <p style={{
+                fontFamily: '"Press Start 2P", monospace',
+                fontSize: '12px',
+                color: '#0F4F0F',
+                textShadow: '1px 1px 0 rgba(255,255,255,0.5)',
+                margin: 0,
+                lineHeight: '1.5',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                Você limpou todo o rio!<br/>
+                Sua tranquilidade foi perfeita!
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

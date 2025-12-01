@@ -12,17 +12,17 @@ const BackButton = ({ to = '/' }) => {
   return (
     <motion.button
       onClick={handleClick}
-      whileHover={{ 
+      whileHover={{
         scale: 1.02,
         boxShadow: '2px 2px 0px rgba(0,0,0,0.3)'
       }}
-      whileTap={{ 
+      whileTap={{
         scale: 0.98,
         boxShadow: 'none',
         transform: 'translate(4px, 4px)'
       }}
       className="pixel-button pixel-font pixel-font-small"
-      style={{ 
+      style={{
         padding: '12px 16px',
         minWidth: '120px'
       }}

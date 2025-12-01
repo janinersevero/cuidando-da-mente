@@ -1,46 +1,39 @@
-/* Fontes */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap');
 
-/* Base reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Paleta de cores pixel art para o jogo */
 :root {
-  /* Cores primárias suaves */
   --pixel-bg: #2D3748;
   --pixel-bg-light: #4A5568;
   --pixel-text: #F7FAFC;
   --pixel-text-dark: #2D3748;
-  
-  /* Cores dos elementos */
+
   --fire-primary: #FF6B6B;
   --fire-secondary: #FFE66D;
   --fire-accent: #FF8E53;
-  
+
   --water-primary: #4ECDC4;
   --water-secondary: #45B7D1;
   --water-accent: #96CEB4;
-  
+
   --wind-primary: #A8E6CF;
   --wind-secondary: #C7CEEA;
   --wind-accent: #FFEAA7;
-  
+
   --earth-primary: #98D8C8;
   --earth-secondary: #FDCB6E;
   --earth-accent: #6C5CE7;
-  
-  /* Cores de feedback */
+
   --success: #00B894;
   --warning: #FDCB6E;
   --error: #E17055;
   --calm: #74B9FF;
-  
-  /* Sombras pixel art */
+
   --shadow-pixel: 4px 4px 0px rgba(0,0,0,0.3);
   --shadow-pixel-small: 2px 2px 0px rgba(0,0,0,0.2);
 }
@@ -64,7 +57,6 @@
   line-height: 1.6;
 }
 
-/* Fonte mais acessível para crianças */
 .child-friendly-font {
   font-family: 'Comic Neue', 'Comic Sans MS', cursive;
   font-size: 18px;
@@ -83,7 +75,6 @@
   font-weight: 600;
 }
 
-/* Elementos pixel art base */
 .pixel-button {
   background: var(--pixel-bg-light);
   border: 3px solid var(--pixel-text);
@@ -108,7 +99,6 @@
   box-shadow: none;
 }
 
-/* Cards de elementos com estilo pixel */
 .pixel-card {
   background: var(--pixel-bg);
   border: 3px solid var(--pixel-text);
@@ -137,7 +127,6 @@
   background: rgba(255,255,255,0.2);
 }
 
-/* Cores específicas para cada elemento */
 .pixel-fire {
   background: linear-gradient(135deg, var(--fire-primary), var(--fire-secondary));
   border-color: var(--fire-accent);
@@ -158,7 +147,6 @@
   border-color: var(--earth-accent);
 }
 
-/* Layout para tablet */
 .tablet-container {
   width: 100vw;
   height: 100vh;
@@ -183,7 +171,6 @@
   width: 100%;
 }
 
-/* HUD elementos */
 .pixel-hud {
   position: fixed;
   top: 20px;
@@ -196,7 +183,6 @@
   box-shadow: var(--shadow-pixel);
 }
 
-/* Sprites pixel art */
 .pixel-sprite {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
@@ -211,11 +197,10 @@
   height: 64px;
 }
 
-/* Elementos 8-bit específicos - MUITO MAIORES para crianças */
 .pixel-fire-sprite {
-  background: linear-gradient(45deg, 
-    var(--fire-primary) 0%, 
-    var(--fire-secondary) 50%, 
+  background: linear-gradient(45deg,
+    var(--fire-primary) 0%,
+    var(--fire-secondary) 50%,
     var(--fire-accent) 100%);
   width: 80px;
   height: 80px;
@@ -289,7 +274,6 @@
   box-shadow: 0 4px 8px rgba(253, 203, 110, 0.3);
 }
 
-/* Sprites ainda maiores para cards */
 .pixel-sprite-xl {
   width: 120px;
   height: 120px;
@@ -337,17 +321,16 @@
   left: -30px;
 }
 
-/* Animações pixel art */
 @keyframes pixel-bounce {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-4px); }
 }
 
 @keyframes pixel-glow {
-  0%, 100% { 
+  0%, 100% {
     box-shadow: var(--shadow-pixel), 0 0 0 rgba(116, 185, 255, 0);
   }
-  50% { 
+  50% {
     box-shadow: var(--shadow-pixel), 0 0 20px rgba(116, 185, 255, 0.5);
   }
 }
@@ -360,20 +343,19 @@
   animation: pixel-glow 2s ease-in-out infinite;
 }
 
-/* Responsividade para tablets */
 @media (orientation: landscape) and (max-width: 1024px) {
   .tablet-container {
     padding: 16px;
   }
-  
+
   .pixel-font {
     font-size: 10px;
   }
-  
+
   .pixel-font-large {
     font-size: 14px;
   }
-  
+
   .tablet-grid {
     gap: 16px;
   }
@@ -384,14 +366,13 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
-  
+
   .tablet-grid-2 {
     grid-template-columns: 1fr;
     gap: 12px;
   }
 }
 
-/* Configurações globais para o jogo */
 html, body {
   margin: 0;
   padding: 0;
@@ -406,12 +387,10 @@ body {
   color: #1f2937;
 }
 
-/* Remove estilos padrão */
 * {
   box-sizing: border-box;
 }
 
-/* Suporte para touch */
 * {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
@@ -422,7 +401,6 @@ body {
   user-select: none;
 }
 
-/* Permite seleção de texto em elementos específicos */
 input, textarea, [contenteditable] {
   -webkit-user-select: text;
   -moz-user-select: text;
@@ -430,7 +408,6 @@ input, textarea, [contenteditable] {
   user-select: text;
 }
 
-/* Animações customizadas */
 @keyframes breath {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
@@ -458,7 +435,6 @@ input, textarea, [contenteditable] {
   animation: glow 2s ease-in-out infinite;
 }
 
-/* Scrollbar personalizada */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -477,13 +453,11 @@ input, textarea, [contenteditable] {
   background: #94a3b8;
 }
 
-/* Estados de foco acessíveis */
 .focus-visible:focus {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
 
-/* Efeitos de transição suaves */
 .transition-smooth {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

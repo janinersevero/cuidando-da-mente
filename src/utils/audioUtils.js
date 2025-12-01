@@ -1,6 +1,5 @@
 import { Howl, Howler } from 'howler';
 
-// Configuração dos sons do jogo
 const SOUNDS = {
   fire: {
     src: ['/sounds/fire.mp3', '/sounds/fire.wav'],
@@ -34,65 +33,62 @@ const SOUNDS = {
   }
 };
 
-// Cache dos objetos Howl
 const soundCache = {};
 
 /**
  * Inicializa um som e o adiciona ao cache
- * @param {string} soundKey - Chave do som
- * @returns {Howl} Objeto Howl inicializado
+ * @param {string} soundKey
+ * @returns {Howl}
  */
 export const initializeSound = (soundKey) => {
   if (soundCache[soundKey]) {
     return soundCache[soundKey];
   }
-  
+
   const soundConfig = SOUNDS[soundKey];
   if (!soundConfig) {
     console.warn(`Som ${soundKey} não encontrado`);
     return null;
   }
-  
+
   const howl = new Howl(soundConfig);
   soundCache[soundKey] = howl;
-  
+
   return howl;
 };
 
 /**
  * Toca um som específico
- * @param {string} soundKey - Chave do som
- * @param {Object} options - Opções adicionais
+ * @param {string} soundKey
+ * @param {Object} options
  */
 export const playSound = (soundKey, options = {}) => {
   try {
     let sound = soundCache[soundKey];
-    
+
     if (!sound) {
       sound = initializeSound(soundKey);
     }
-    
+
     if (!sound) {
       console.warn(`Não foi possível inicializar o som ${soundKey}`);
       return;
     }
-    
-    // Aplica opções específicas se fornecidas
+
     if (options.volume !== undefined) {
       sound.volume(options.volume);
     }
-    
+
     if (options.loop !== undefined) {
       sound.loop(options.loop);
     }
-    
-    // Para o som se já estiver tocando e não for loop
+
     if (!sound._loop && sound.playing()) {
       sound.stop();
     }
-    
+
     sound.play();
-    
+
     return sound;
   } catch (error) {
     console.error(`Erro ao tocar som ${soundKey}:`, error);
@@ -101,7 +97,7 @@ export const playSound = (soundKey, options = {}) => {
 
 /**
  * Para um som específico
- * @param {string} soundKey - Chave do som
+ * @param {string} soundKey
  */
 export const stopSound = (soundKey) => {
   try {
@@ -114,9 +110,6 @@ export const stopSound = (soundKey) => {
   }
 };
 
-/**
- * Para todos os sons
- */
 export const stopAllSounds = () => {
   try {
     Object.keys(soundCache).forEach(soundKey => {
@@ -129,8 +122,8 @@ export const stopAllSounds = () => {
 
 /**
  * Ajusta o volume de um som
- * @param {string} soundKey - Chave do som
- * @param {number} volume - Volume (0-1)
+ * @param {string} soundKey
+ * @param {number} volume
  */
 export const setVolume = (soundKey, volume) => {
   try {
@@ -145,7 +138,7 @@ export const setVolume = (soundKey, volume) => {
 
 /**
  * Ajusta o volume global de todos os sons
- * @param {number} volume - Volume global (0-1)
+ * @param {number} volume
  */
 export const setGlobalVolume = (volume) => {
   try {
@@ -157,15 +150,15 @@ export const setGlobalVolume = (volume) => {
 
 /**
  * Toca o som ambiente do elemento atual
- * @param {string} element - Elemento atual (fire, water, wind, earth)
+ * @param {string} element
  */
 export const playElementSound = (element) => {
-  // Para todos os sons ambiente antes de tocar o novo
+
   stopSound('fire');
   stopSound('water');
   stopSound('wind');
   stopSound('earth');
-  
+
   if (element && SOUNDS[element]) {
     playSound(element);
   }
@@ -173,28 +166,26 @@ export const playElementSound = (element) => {
 
 /**
  * Toca som de feedback (sucesso ou erro)
- * @param {boolean} success - True para sucesso, false para erro
+ * @param {boolean} success
  */
 export const playFeedbackSound = (success) => {
   const soundKey = success ? 'success' : 'error';
   playSound(soundKey);
 };
 
-/**
- * Pré-carrega todos os sons
- */
+
 export const preloadSounds = () => {
   return new Promise((resolve) => {
     const soundKeys = Object.keys(SOUNDS);
     let loadedCount = 0;
-    
+
     const checkComplete = () => {
       loadedCount++;
       if (loadedCount >= soundKeys.length) {
         resolve();
       }
     };
-    
+
     soundKeys.forEach(soundKey => {
       const sound = initializeSound(soundKey);
       if (sound) {
@@ -204,26 +195,21 @@ export const preloadSounds = () => {
         checkComplete();
       }
     });
-    
-    // Timeout para evitar travamento
+
     setTimeout(resolve, 5000);
   });
 };
 
-/**
- * Limpa o cache de sons
- */
 export const clearSoundCache = () => {
   Object.values(soundCache).forEach(sound => {
     if (sound) {
       sound.unload();
     }
   });
-  
+
   Object.keys(soundCache).forEach(key => {
     delete soundCache[key];
   });
 };
 
-// Exporta também as constantes para uso externo
 export { SOUNDS };

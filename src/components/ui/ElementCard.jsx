@@ -46,11 +46,11 @@ const ElementCard = ({ element, title, description, onClick, disabled = false })
     <motion.button
       onClick={onClick}
       disabled={disabled}
-      whileHover={!disabled ? { 
+      whileHover={!disabled ? {
         scale: 1.05,
         y: -5
       } : {}}
-      whileTap={!disabled ? { 
+      whileTap={!disabled ? {
         scale: 0.95
       } : {}}
       className={`
@@ -66,27 +66,18 @@ const ElementCard = ({ element, title, description, onClick, disabled = false })
         background: `linear-gradient(135deg, ${getElementColors(element).primary}, ${getElementColors(element).secondary})`
       }}
     >
-      {/* Emoji do elemento - MUITO MAIOR */}
       <div style={{ fontSize: '120px', margin: '20px 0' }}>
         {getElementEmoji(element)}
       </div>
-      
-      {/* Título */}
+
       <h3 className="child-friendly-font child-friendly-font-large" style={{ color: 'white', textAlign: 'center', margin: '16px 0' }}>
         {title}
       </h3>
-      
-      {/* Descrição */}
+
       <p className="child-friendly-font text-center" style={{ color: 'white', opacity: 0.9, margin: '8px 0' }}>
         {description}
       </p>
 
-      {/* Indicador visual de ação - MAIOR */}
-      <div className="flex items-center justify-center space-x-3 mt-6">
-        <div className="child-friendly-font-small" style={{ color: 'white', fontWeight: 'bold' }}>
-          👆 TOQUE AQUI PARA JOGAR! 👆
-        </div>
-      </div>
     </motion.button>
   );
 };

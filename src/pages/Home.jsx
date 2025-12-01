@@ -1,197 +1,206 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import '../styles/pixelButtons.css';
+import backgroundHome from '../assets/figma/background_home.jpg';
+import cloudsSprite from '../assets/figma/clouds.png';
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const handleStart = () => {
+  const handlePlay = () => {
     navigate('/selecionar');
   };
 
+  const handleInstructions = () => {
+    alert('Como jogar:\n\n🔥 Fogo: Movimente devagar para controlar\n💧 Água: Respire no ritmo 4-4\n🌬️ Vento: Gestos suaves e contínuos\n🌱 Terra: Pratique paciência');
+  };
+
+  const handleAbout = () => {
+    alert('Cuidando da Mente\n\nJogo desenvolvido para ajudar crianças com TDAH, ansiedade e depressão leve a praticar exercícios de mindfulness através dos 4 elementos da natureza.');
+  };
+
   return (
-    <div className="tablet-container" style={{ background: 'var(--pixel-bg)', minHeight: '100vh' }}>
-      <div className="w-full text-center flex flex-col items-center justify-center h-full">
-        {/* Logo/Título Pixel Art */}
-        <motion.div
+    <div
+      style={{
+        backgroundImage: `url(${backgroundHome})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        minHeight: '100vh',
+        position: 'relative'
+      }}
+    >
+      <motion.img
+        src={cloudsSprite}
+        alt="Nuvem 1"
+        style={{
+          position: 'absolute',
+          top: '4%',
+          left: '6%',
+          width: '300px',
+          height: '200px',
+          objectFit: 'contain',
+          imageRendering: 'pixelated',
+          zIndex: 1,
+          border: 'none',
+          outline: 'none',
+          boxShadow: 'none',
+          margin: 0,
+          padding: 0
+        }}
+        animate={{
+          x: [0, 35, 0],
+          y: [0, -18, 0]
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+
+      <motion.img
+        src={cloudsSprite}
+        alt="Nuvem 2"
+        style={{
+          position: 'absolute',
+          top: '10%',
+          right: '8%',
+          width: '270px',
+          height: '180px',
+          objectFit: 'contain',
+          imageRendering: 'pixelated',
+          zIndex: 1,
+          transform: 'scaleX(-1)',
+          border: 'none',
+          outline: 'none',
+          boxShadow: 'none',
+          margin: 0,
+          padding: 0
+        }}
+        animate={{
+          x: [0, -30, 0],
+          y: [0, 15, 0]
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2
+        }}
+      />
+
+      <motion.img
+        src={cloudsSprite}
+        alt="Nuvem 3"
+        style={{
+          position: 'absolute',
+          top: '1%',
+          right: '2%',
+          width: '240px',
+          height: '160px',
+          objectFit: 'contain',
+          imageRendering: 'pixelated',
+          zIndex: 1,
+          opacity: 0.95,
+          border: 'none',
+          outline: 'none',
+          boxShadow: 'none',
+          margin: 0,
+          padding: 0
+        }}
+        animate={{
+          x: [0, 25, 0],
+          y: [0, -12, 0]
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 4
+        }}
+      />
+
+      <div className="figma-home-container">
+        <motion.h1
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mb-12"
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="figma-title"
         >
-          <div className="pixel-card pixel-water p-8 mb-6">
-            <h1 className="pixel-font pixel-font-large" style={{ color: 'white', textAlign: 'center' }}>
-              CUIDANDO DA MENTE
-            </h1>
-            <p className="child-friendly-font mt-4" style={{ color: 'white', textAlign: 'center' }}>
-              Jogos divertidos para relaxar e se sentir bem!
-            </p>
-          </div>
-        </motion.div>
+          Cuidando da Mente
+        </motion.h1>
 
-        {/* Emojis dos Elementos - LADO A LADO HORIZONTAL */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="mb-12"
-        >
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center',
-            gap: '40px',
-            flexDirection: 'row',
-            flexWrap: 'nowrap'
-          }}>
-            <motion.span
-              style={{ 
-                fontSize: '120px',
-                lineHeight: '1',
-                display: 'inline-block'
-              }}
-              animate={{ 
-                scale: [1, 1.1, 1]
-              }}
-              transition={{ 
-                duration: 2,
-                repeat: Infinity,
-                repeatType: "reverse"
-              }}
-            >
-              🔥
-            </motion.span>
-            <motion.span
-              style={{ 
-                fontSize: '120px',
-                lineHeight: '1',
-                display: 'inline-block'
-              }}
-              animate={{ 
-                scale: [1, 1.1, 1]
-              }}
-              transition={{ 
-                duration: 2,
-                repeat: Infinity,
-                repeatType: "reverse",
-                delay: 0.5
-              }}
-            >
-              💧
-            </motion.span>
-            <motion.span
-              style={{ 
-                fontSize: '120px',
-                lineHeight: '1',
-                display: 'inline-block'
-              }}
-              animate={{ 
-                x: [0, 4, -4, 0]
-              }}
-              transition={{ 
-                duration: 2,
-                repeat: Infinity,
-                repeatType: "reverse",
-                delay: 1
-              }}
-            >
-              🌬️
-            </motion.span>
-            <motion.span
-              style={{ 
-                fontSize: '120px',
-                lineHeight: '1',
-                display: 'inline-block'
-              }}
-              animate={{ 
-                y: [0, -4, 0]
-              }}
-              transition={{ 
-                duration: 2,
-                repeat: Infinity,
-                repeatType: "reverse",
-                delay: 1.5
-              }}
-            >
-              🌱
-            </motion.span>
-          </div>
-        </motion.div>
-
-        {/* Descrição Pixel Art */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mb-12"
-        >
-          <div className="pixel-card p-6" style={{ background: 'var(--pixel-bg-light)' }}>
-            <p className="pixel-font pixel-font-small" style={{ color: 'var(--pixel-text)' }}>
-              Explore os quatro elementos da natureza atraves de exercicios simples
-              que ajudam a desenvolver foco, paciencia e autocontrole.
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Botão Pixel Art */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-          className="mb-8"
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="figma-buttons-container"
         >
           <motion.button
-            onClick={handleStart}
-            whileHover={{ 
-              scale: 1.02,
-              boxShadow: '2px 2px 0px rgba(0,0,0,0.3)'
-            }}
-            whileTap={{ 
-              scale: 0.98,
-              boxShadow: 'none',
-              transform: 'translate(4px, 4px)'
-            }}
-            className="pixel-button pixel-fire pixel-font"
-            style={{ 
-              width: '100%',
-              maxWidth: '400px',
-              padding: '20px 40px',
-              fontSize: '14px'
+            className="figma-scroll-button"
+            onClick={handleInstructions}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            COMO JOGAR
+          </motion.button>
+
+          <motion.button
+            className="figma-scroll-button"
+            onClick={handlePlay}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            style={{
+              background: 'linear-gradient(145deg, #90EE90, #32CD32)',
+              fontSize: '18px',
+              fontWeight: 'bold'
             }}
           >
-            COMECAR JORNADA
+            JOGAR
+          </motion.button>
+
+          <motion.button
+            className="figma-scroll-button"
+            onClick={handleAbout}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.9 }}
+          >
+            SOBRE
           </motion.button>
         </motion.div>
 
-        {/* Info Cards Pixel Art */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1.2 }}
-          className="tablet-grid-2 max-w-md mb-8"
+          style={{
+            position: 'absolute',
+            bottom: '120px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            textAlign: 'center'
+          }}
         >
-          <div className="pixel-card pixel-earth p-4">
-            <div className="pixel-font pixel-font-small" style={{ color: 'var(--pixel-text-dark)' }}>
-              <div className="font-bold">DURACAO</div>
-              <div className="mt-2">2 min por elemento</div>
-            </div>
-          </div>
-          <div className="pixel-card pixel-wind p-4">
-            <div className="pixel-font pixel-font-small" style={{ color: 'var(--pixel-text-dark)' }}>
-              <div className="font-bold">OBJETIVO</div>
-              <div className="mt-2">Exercitar mindfulness</div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Footer Pixel Art */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1.5 }}
-        >
-          <p className="pixel-font pixel-font-small" style={{ color: 'var(--pixel-text)', opacity: 0.8 }}>
-            Projeto desenvolvido para apoiar criancas com TDAH, ansiedade e depressao leve
+          <p style={{
+            fontFamily: '"Press Start 2P", monospace',
+            fontSize: '10px',
+            color: '#654321',
+            textShadow: '1px 1px 0 rgba(255,255,255,0.7)',
+            maxWidth: '400px',
+            lineHeight: '1.6'
+          }}>
+            Exercicios de mindfulness para criancas
           </p>
         </motion.div>
       </div>
