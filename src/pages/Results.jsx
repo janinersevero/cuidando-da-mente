@@ -62,7 +62,7 @@ const Results = () => {
 
   const handleTryAgain = () => {
     resetGame();
-    navigate(-1); // Volta para o jogo anterior
+    navigate(-1);
   };
 
   const handleChooseAnother = () => {
@@ -78,7 +78,6 @@ const Results = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100 p-6">
       <div className="max-w-md mx-auto">
-        {/* Header com elemento */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -92,7 +91,6 @@ const Results = () => {
           </div>
         </motion.div>
 
-        {/* Mensagem de performance */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -107,14 +105,12 @@ const Results = () => {
           </div>
         </motion.div>
 
-        {/* Estatísticas */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           className="grid grid-cols-2 gap-4 mb-8"
         >
-          {/* Progresso */}
           <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg">
             <div className="text-2xl font-bold text-blue-600 mb-1">
               {Math.round(progress)}%
@@ -122,7 +118,6 @@ const Results = () => {
             <div className="text-sm text-gray-600">Progresso</div>
           </div>
 
-          {/* Taxa de sucesso */}
           <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg">
             <div className="text-2xl font-bold text-green-600 mb-1">
               {Math.round(successRate)}%
@@ -130,7 +125,6 @@ const Results = () => {
             <div className="text-sm text-gray-600">Precisão</div>
           </div>
 
-          {/* Acertos */}
           <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg">
             <div className="text-2xl font-bold text-emerald-600 mb-1">
               {hits}
@@ -138,7 +132,6 @@ const Results = () => {
             <div className="text-sm text-gray-600">Acertos</div>
           </div>
 
-          {/* Tempo jogado */}
           <div className="bg-white/60 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg">
             <div className="text-2xl font-bold text-purple-600 mb-1">
               {Math.round(timeElapsed)}s
@@ -147,7 +140,6 @@ const Results = () => {
           </div>
         </motion.div>
 
-        {/* Conquistas */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -193,7 +185,6 @@ const Results = () => {
           </div>
         </motion.div>
 
-        {/* Botões de ação */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -222,7 +213,6 @@ const Results = () => {
           </button>
         </motion.div>
 
-        {/* Dica para próxima sessão */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -231,7 +221,7 @@ const Results = () => {
         >
           <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
             <p className="text-sm text-blue-700">
-              💡 <strong>Dica:</strong> Pratique regularmente para melhores resultados. 
+              💡 <strong>Dica:</strong> Pratique regularmente para melhores resultados.
               Cada elemento trabalha diferentes aspectos do mindfulness.
             </p>
           </div>

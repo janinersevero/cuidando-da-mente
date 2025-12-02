@@ -37,21 +37,21 @@ const CalmIndicator = ({ calm, intensity = 0 }) => {
 
   return (
     <div className="flex flex-col items-center space-y-2">
-      <div 
+      <div
         className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 ${getIndicatorColor()} ${getPulseClass()}`}
       >
         <div className={`w-8 h-8 rounded-full bg-white/30 ${calm ? 'animate-pulse' : ''}`} />
       </div>
-      
+
       <div className="text-center">
         <p className="text-sm font-medium text-gray-700">
           {getIndicatorText()}
         </p>
-        
+
         {intensity > 0 && (
           <div className="mt-1">
             <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
-              <div 
+              <div
                 className={`h-full transition-all duration-300 ${getIndicatorColor()}`}
                 style={{ width: `${Math.min(intensity * 100, 100)}%` }}
               />

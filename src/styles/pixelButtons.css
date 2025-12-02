@@ -7,14 +7,14 @@
   font-size: 14px;
   font-family: "Press Start 2P", monospace;
   border: 0;
-  box-shadow: 
-    0px 5px black, 
-    0px -5px black, 
-    5px 0px black, 
-    -5px 0px black, 
-    0px 10px #00000038, 
-    5px 5px #00000038, 
-    -5px 5px #00000038, 
+  box-shadow:
+    0px 5px black,
+    0px -5px black,
+    5px 0px black,
+    -5px 0px black,
+    0px 10px #00000038,
+    5px 5px #00000038,
+    -5px 5px #00000038,
     inset 0px 5px #ffffff36;
   cursor: pointer;
   transition: none;
@@ -23,10 +23,10 @@
 
 .pixel-button:active {
   transform: translateY(5px);
-  box-shadow: 
-    0px 5px black, 
-    0px -5px black, 
-    5px 0px black, 
+  box-shadow:
+    0px 5px black,
+    0px -5px black,
+    5px 0px black,
     -5px 0px black,
     inset 0px 5px #00000038;
 }
@@ -35,7 +35,6 @@
   background-color: #7bc53f;
 }
 
-/* Variantes de cores para diferentes botões */
 .pixel-button-play {
   background-color: #6abc3a;
 }
@@ -60,7 +59,6 @@
   background-color: #4a7a95;
 }
 
-/* Estilo para títulos pixel art */
 .pixel-title {
   background: #2e2e2e;
   padding: 15px;
@@ -68,30 +66,29 @@
   margin-bottom: 30px;
   font-family: "Press Start 2P", monospace;
   font-size: 24px;
-  box-shadow: 
-    0px 5px black, 
-    0px -5px black, 
-    5px 0px black, 
-    -5px 0px black, 
-    0px 10px #00000038, 
-    5px 5px #00000038, 
-    -5px 5px #00000038, 
-    inset 0px 5px #ffffff1f, 
+  box-shadow:
+    0px 5px black,
+    0px -5px black,
+    5px 0px black,
+    -5px 0px black,
+    0px 10px #00000038,
+    5px 5px #00000038,
+    -5px 5px #00000038,
+    inset 0px 5px #ffffff1f,
     inset 0px -5px #00000030;
   image-rendering: pixelated;
   text-align: center;
 }
 
-/* Fundo pixel art inspirado no Figma */
 .pixel-background {
   background: linear-gradient(
     to bottom,
-    #87CEEB 0%,    /* Céu azul */
-    #87CEEB 60%,   /* Céu azul */
-    #90EE90 60%,   /* Grama verde */
-    #90EE90 85%,   /* Grama verde */
-    #CD853F 85%,   /* Terra marrom */
-    #CD853F 100%   /* Terra marrom */
+    #87CEEB 0%,
+    #87CEEB 60%,
+    #90EE90 60%,
+    #90EE90 85%,
+    #CD853F 85%,
+    #CD853F 100%
   );
   min-height: 100vh;
   image-rendering: pixelated;
@@ -99,13 +96,12 @@
   overflow: hidden;
 }
 
-/* Nuvens pixel art */
 .pixel-cloud {
   background: white;
   border-radius: 50px;
   opacity: 0.9;
   position: absolute;
-  box-shadow: 
+  box-shadow:
     inset 0 0 0 2px white,
     2px 2px 0 rgba(0,0,0,0.1);
 }
@@ -124,7 +120,6 @@
   border-radius: 50px;
 }
 
-/* Diferentes tamanhos de nuvens */
 .pixel-cloud-1 {
   width: 80px;
   height: 40px;
@@ -154,7 +149,6 @@
   50% { transform: translateY(-10px); }
 }
 
-/* Container principal para o layout do Figma */
 .figma-home-container {
   display: flex;
   flex-direction: column;
@@ -166,13 +160,11 @@
   z-index: 10;
 }
 
-/* Título principal estilo Figma */
 .figma-title {
   font-family: "Press Start 2P", monospace;
   font-size: 56px;
   color: #8B4513;
-  text-shadow: 
-    /* Borda branca ao redor (como no Figma) */
+  text-shadow:
     -2px -2px 0 #fff,
     2px -2px 0 #fff,
     -2px 2px 0 #fff,
@@ -181,7 +173,6 @@
     1px -1px 0 #fff,
     -1px 1px 0 #fff,
     1px 1px 0 #fff,
-    /* Sombra marrom */
     3px 3px 0 #654321,
     5px 5px 0 rgba(0,0,0,0.4);
   margin-bottom: 60px;
@@ -190,7 +181,6 @@
   image-rendering: pixelated;
 }
 
-/* Container dos botões estilo pergaminho */
 .figma-buttons-container {
   display: flex;
   gap: 40px;
@@ -199,7 +189,6 @@
   align-items: center;
 }
 
-/* Botões estilo pergaminho do Figma */
 .figma-scroll-button {
   background: linear-gradient(145deg, #DEB887, #CD853F);
   border: 4px solid #8B4513;
@@ -210,7 +199,7 @@
   text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
   cursor: pointer;
   position: relative;
-  box-shadow: 
+  box-shadow:
     inset 2px 2px 0 rgba(255,255,255,0.3),
     inset -2px -2px 0 rgba(0,0,0,0.2),
     4px 4px 8px rgba(0,0,0,0.3);
@@ -223,7 +212,7 @@
 .figma-scroll-button:hover {
   background: linear-gradient(145deg, #F0E68C, #DAA520);
   transform: translateY(-2px);
-  box-shadow: 
+  box-shadow:
     inset 2px 2px 0 rgba(255,255,255,0.4),
     inset -2px -2px 0 rgba(0,0,0,0.2),
     4px 6px 12px rgba(0,0,0,0.3);
@@ -231,12 +220,11 @@
 
 .figma-scroll-button:active {
   transform: translateY(2px);
-  box-shadow: 
+  box-shadow:
     inset 2px 2px 4px rgba(0,0,0,0.3),
     2px 2px 4px rgba(0,0,0,0.2);
 }
 
-/* Decorações pixel art */
 .pixel-decoration {
   position: absolute;
   bottom: 0;
@@ -253,18 +241,17 @@
   border-top: 4px solid #8B4513;
 }
 
-/* Responsividade para tablet */
 @media (max-width: 768px) {
   .figma-title {
     font-size: 32px;
     letter-spacing: 2px;
   }
-  
+
   .figma-buttons-container {
     flex-direction: column;
     gap: 20px;
   }
-  
+
   .figma-scroll-button {
     font-size: 14px;
     padding: 15px 30px;

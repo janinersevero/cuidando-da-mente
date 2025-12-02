@@ -5,18 +5,16 @@ const ProgressCircle = ({ value, size = 120, strokeWidth = 8, calm = false }) =>
   const circumference = 2 * Math.PI * radius;
   const strokeDasharray = circumference;
   const strokeDashoffset = circumference - (value / 100) * circumference;
-  
+
   const centerX = size / 2;
   const centerY = size / 2;
-  
-  // Cores baseadas no estado calm
+
   const progressColor = calm ? '#22c55e' : '#ef4444';
   const backgroundColor = '#e5e7eb';
-  
+
   return (
     <div className="flex flex-col items-center">
       <svg width={size} height={size} className="transform -rotate-90">
-        {/* Círculo de fundo */}
         <circle
           cx={centerX}
           cy={centerY}
@@ -25,8 +23,7 @@ const ProgressCircle = ({ value, size = 120, strokeWidth = 8, calm = false }) =>
           strokeWidth={strokeWidth}
           fill="transparent"
         />
-        
-        {/* Círculo de progresso */}
+
         <circle
           cx={centerX}
           cy={centerY}
@@ -39,8 +36,7 @@ const ProgressCircle = ({ value, size = 120, strokeWidth = 8, calm = false }) =>
           strokeLinecap="round"
           className="transition-all duration-500 ease-out"
         />
-        
-        {/* Texto do progresso no centro */}
+
         <text
           x={centerX}
           y={centerY}
